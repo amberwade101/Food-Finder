@@ -31,25 +31,25 @@ $.ajax({
 
 
 
-// $.ajax({
-//   method: "get",
-//   // url:  'https://api.eatstreet.com/publicapi/v1/restaurant/d6030cd1335dc7d3459c89af9c680205d30b6aeaa238f8d1/menu?includeCustomizations=false'
-//   url: "https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=2a98759c3f05101c&method=both&street-address=659+S+Broadway+Los+Angeles,+CA"
-// }).then(function(results){
-//   console.log(results)
-//   $.ajax({
-//     method: "get",
-//     url:  'https://api.eatstreet.com/publicapi/v1/restaurant/' + results.restaurants[2].apiKey + '/menu?access-token=2a98759c3f05101c&includeCustomizations=false'
-//   }).then(function(results2){
-//     console.log(results2)
-//     for (var i = 0; i < results2.length; i++){
-//       for (var x = 0; x < results2[i].items.length; x++){
-//         console.log(results2[i].items[x].description)
+$.ajax({
+  method: "get",
+  // url:  'https://api.eatstreet.com/publicapi/v1/restaurant/d6030cd1335dc7d3459c89af9c680205d30b6aeaa238f8d1/menu?includeCustomizations=false'
+  url: "https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=2a98759c3f05101c&method=both&street-address=659+S+Broadway+Los+Angeles,+CA&search=901+Bar+and+grill"
+}).then(function(results){
+  console.log(results)
+  $.ajax({
+    method: "get",
+    url:  'https://api.eatstreet.com/publicapi/v1/restaurant/' + results.restaurants[0].apiKey + '/menu?access-token=2a98759c3f05101c&includeCustomizations=false'
+  }).then(function(results2){
+    console.log(results2)
+    for (var i = 0; i < results2.length; i++){
+      for (var x = 0; x < results2[i].items.length; x++){
+        console.log(results2[i].items[x].description)
         
-//       }
-//     }
-//   })
-// })
+      }
+    }
+  })
+})
 
 
 
