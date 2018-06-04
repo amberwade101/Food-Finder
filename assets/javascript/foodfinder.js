@@ -8,7 +8,7 @@ var locationQueryURL = "https://developers.zomato.com/api/v2.1/locations?query="
 var latitude;
 var longitude;
 
-$.ajax({
+/*$.ajax({
   method: "GET",
   url: locationQueryURL,
   headers: { "user-key": "69efdd6d88045ed798460c615c4d6ad9" }
@@ -20,13 +20,14 @@ $.ajax({
 
 var restaurantQueryURL = "https://developers.zomato.com/api/v2.1/search?q=" + keywordInput + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radiusInput
 
-$.ajax({
+/*$.ajax({
   method: "GET",
   url: restaurantQueryURL,
   headers: { "user-key": "69efdd6d88045ed798460c615c4d6ad9" }
-}).then(function(response){
-  console.log(response)
-})
+}).//then(function(response){
+  //console.log(response)
+//})
+*/
 
 
 
@@ -36,32 +37,31 @@ $.ajax({
 
 
 
+var namesearchES= localStorage.getItem ("restaurantname")
 
-
-var namesearchES= "2 for 1 Pizza"
-
-var latitudeES=34.039524;
-var longitudeES=-118.309551;
+var latitudeES= localStorage.getItem("restaurantlatitude")
+var longitudeES=localStorage.getItem("restaurantlongitude")
 
 
 
-var restaurantURLES="https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=89c8d7ed28eb8302&latitude=" + latitudeES + "&longitude=" + longitudeES+ "&method=both&search=" + namesearchES
+var restaurantURLES="https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=89c8d7ed28eb8302&latitude=" + latitudeES + "&longitude=" + longitudeES + "&method=both&search=" + namesearchES
 
 
 $.ajax({
   method: "get",
   url: restaurantURLES,
 }).then(function(results){
-  console.log(results.restaurants[2].apiKey)
+  console.log(results.restaurants)
+  //console.log(results.restaurants[0].apiKey)
   $.ajax({
     method: "get",
-    url:  'https://api.eatstreet.com/publicapi/v1/restaurant/' + results.restaurants[2].apiKey
+    url:  'https://api.eatstreet.com/publicapi/v1/restaurant/' + results.restaurants[0].apiKey
      + '/menu?access-token=89c8d7ed28eb8302&includeCustomizations=false'
   }).then(function(results2){
     console.log(results2)
    for (var i = 0; i < results2.length; i++){
       for (var x = 0; x < results2[i].items.length; x++){
-        console.log(results2[i].items[x].description)
+        // console.log(results2[i].items[x].description)
         
         
       
