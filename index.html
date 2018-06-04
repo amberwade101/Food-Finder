@@ -14,16 +14,27 @@
           <label for="citySearch">Enter Your City</label>
           <input type="text" class="form-control" id="citySearch" placeholder="Enter City">
         </div>
-        <div class="form-group">
-          <label for="radiusSearch">Enter the radius of your search in meters</label>
-          <input type="text" class="form-control" id="radiusSearch" placeholder="Search Radius">
+    
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text"       for="inputGroupSelect01">Select </label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01">
+              <option selected>Choose Radius...</option>
+              <option value="1">within 1mile</option>
+              <option value="2">within 5miles</option>
+              <option value="3">within 10miles</option>
+              <option value="4">within 15miles</option>
+              <option value="5">within 20miles</option>
+            </select>
         </div>
-        <div class="form-group">
-            <label for="keywordSearch">Enter a keyword</label>
-            <input type="text" class="form-control" id="keywordSearch" placeholder="Keyword">
+          
+          
           </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" id="firstsubmit">Submit</button>
       </form>
+
+     
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="./assets/javascript/foodfinder.js"></script>
