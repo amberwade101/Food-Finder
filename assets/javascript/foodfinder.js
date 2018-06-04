@@ -3,7 +3,7 @@ var cityInput = "west los angeles"
 
 var radiusInput = 5000
 
-var locationQueryURL = "https://developers.zomato.com/api/v2.1/locations?query=" + cityInput
+var locationQueryURL = "https://developers.zomato.com/api/v2.1/locations?query=" +          cityInput
 
 var cityLatitude;
 var cityLongitude;
