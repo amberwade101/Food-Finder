@@ -19,7 +19,9 @@ var selectedCuisine;
 
 // create a queryurl for zomato SEARCH using latitude, longitude, cuisine and radius
 
-var restaurantQueryURL = "https://developers.zomato.com/api/v2.1/search?" + "&lat=" + cityLatitude + "&lon=" + cityLongitude + "&radius=" + radiusInput + "&cuisine=" + selectedCuisine
+var restaurantQueryURL;
+
+var restaurantList = [];
 
 // ajax call to zomato LOCATIONS to get cityLatitude and cityLongitude of a given city
 
@@ -59,19 +61,9 @@ locationQueryURL = "https://developers.zomato.com/api/v2.1/locations?query=" + l
         var dropdownitem = $("<option>").attr("value", i).text(cuisineIds[i].cuisine.cuisine_name)
         $(".custom-select2").append(dropdownitem)
       }
-      
-      
     })
   })
 })
-
-
-
-
-
-
-
-
 
 
 
@@ -90,8 +82,30 @@ $(document.body).on("click", "#secondsubmit", function(){
     url: restaurantQueryURL,
     headers: { "user-key": "69efdd6d88045ed798460c615c4d6ad9" }
   }).then(function(response){
-    console.log(response)
+    restaurantList = response.restaurants;
+    console.log(restaurantList)
+
+    $("body").empty()
+
+    for (var i = 0; i < 20; i++){
+      var parentDiv = $("<div>")
+      var linkName = $("<a>").attr({href: "#", id: i}).text(restaurantList[i].restaurant.name).addClass("restaurantlink")
+      var address = $("<div>").text(restaurantList[i].restaurant.location.address)
+      var rating = $("<div>").text(restaurantList[i].restaurant.user_rating.aggregate_rating)
+      parentDiv.append(linkName, address, rating)
+      $("body").append(parentDiv)
+  
+    }
   })
+
+ 
+})
+
+$(document.body).on("click", ".restaurantlink", function(){
+  console.log($(this).text())
+  localStorage.setItem("restaurantname", $(this).text())
+  localStorage.setItem("restaurantlatitude", restaurantList[$(this).attr("id")].restaurant.location.latitude)
+  localStorage.setItem("restaurantlongitude", restaurantList[$(this).attr("id")].restaurant.location.longitude)
 })
 
 
