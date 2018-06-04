@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ingredients Search Page</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    
+</head>
+<body>
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href = "#">Home</a>
+            <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </nav>      
+
+    <br><br>
+
+    <h3>Max Price:</h3>
+    <div class="form-group">
+        <input type="text" class="form-control" id="maxPrice">
+    </div>
+    
+    <br><br>
+
+    <h3>Ingredient Requests:</h3>
+    <div class="form-group">
+            <label for="exampleFormControlTextarea1">Include:</label>
+            <textarea class="form-control" id="ingredientInclude" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+            <label for="exampleFormControlTextarea1">Exclude:</label>
+            <textarea class="form-control" id="ingredientExclude" rows="3"></textarea>
+    </div>
+    <br>
+    <button type="button" class="btn btn-primary btn-sm" id="ingredientPrevious">Previous Page</button>
+    <button type="button" class="btn btn-primary btn-sm" id="ingredientNext">Next Page</button>
+
+    
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    
+</body>
+</html>
