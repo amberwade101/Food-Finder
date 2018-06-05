@@ -106,6 +106,7 @@ $(document.body).on("click", ".restaurantlink", function(){
   localStorage.setItem("restaurantname", $(this).text())
   localStorage.setItem("restaurantlatitude", restaurantList[$(this).attr("id")].restaurant.location.latitude)
   localStorage.setItem("restaurantlongitude", restaurantList[$(this).attr("id")].restaurant.location.longitude)
+  
 })
 
 
