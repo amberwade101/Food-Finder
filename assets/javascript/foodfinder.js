@@ -85,13 +85,16 @@ $(document.body).on("click", "#secondsubmit", function(){
     restaurantList = response.restaurants;
     console.log(restaurantList)
 
-    $("body").empty()
 
+    $("body").empty()
+   
+//changed address and rating tag to p tag
+//added class=rest-results to parent Div
     for (var i = 0; i < 20; i++){
-      var parentDiv = $("<div>")
+      var parentDiv = $("<div class='rest-results'>")
       var linkName = $("<a>").attr({href: "#", id: i}).text(restaurantList[i].restaurant.name).addClass("restaurantlink")
-      var address = $("<div>").text(restaurantList[i].restaurant.location.address)
-      var rating = $("<div>").text(restaurantList[i].restaurant.user_rating.aggregate_rating)
+      var address = $("<p>").text(restaurantList[i].restaurant.location.address)
+      var rating = $("<p>").text(restaurantList[i].restaurant.user_rating.aggregate_rating)
       parentDiv.append(linkName, address, rating)
       $("body").append(parentDiv)
   
@@ -106,7 +109,6 @@ $(document.body).on("click", ".restaurantlink", function(){
   localStorage.setItem("restaurantname", $(this).text())
   localStorage.setItem("restaurantlatitude", restaurantList[$(this).attr("id")].restaurant.location.latitude)
   localStorage.setItem("restaurantlongitude", restaurantList[$(this).attr("id")].restaurant.location.longitude)
-  
 })
 
 
@@ -117,23 +119,38 @@ $(document.body).on("click", ".restaurantlink", function(){
 
 
 
+//eatstreet starts here
+
+var namesearchES= localStorage.getItem ("restaurantname")
+
+var latitudeES= localStorage.getItem("restaurantlatitude")
+var longitudeES=localStorage.getItem("restaurantlongitude")
+
+
+
+var restaurantURLES="https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=89c8d7ed28eb8302&latitude=" + latitudeES + "&longitude=" + longitudeES + "&method=both&search=" + namesearchES
+
+
 $.ajax({
   method: "get",
-  // url:  'https://api.eatstreet.com/publicapi/v1/restaurant/d6030cd1335dc7d3459c89af9c680205d30b6aeaa238f8d1/menu?includeCustomizations=false'
-  url: "https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=2a98759c3f05101c&method=both&street-address=659+S+Broadway+Los+Angeles,+CA&search=901+Bar+and+grill"
+  url: restaurantURLES,
 }).then(function(results){
-  // console.log(results)
+  console.log(results.restaurants)
+  //console.log(results.restaurants[0].apiKey)
   $.ajax({
     method: "get",
-    url:  'https://api.eatstreet.com/publicapi/v1/restaurant/' + results.restaurants[0].apiKey + '/menu?access-token=2a98759c3f05101c&includeCustomizations=false'
+    url:  'https://api.eatstreet.com/publicapi/v1/restaurant/' + results.restaurants[0].apiKey
+     + '/menu?access-token=89c8d7ed28eb8302&includeCustomizations=false'
   }).then(function(results2){
-    // console.log(results2)
-    for (var i = 0; i < results2.length; i++){
+    console.log(results2)
+   for (var i = 0; i < results2.length; i++){
       for (var x = 0; x < results2[i].items.length; x++){
         // console.log(results2[i].items[x].description)
         
-      }
-    }
+        
+      
+   
+      }}
   })
 })
 
@@ -141,4 +158,6 @@ $.ajax({
 
 
 
-      
+
+
+
