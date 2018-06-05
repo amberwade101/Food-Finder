@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  
     <title>Document</title>
 </head>
 <body>
@@ -14,26 +15,24 @@
           <label for="citySearch">Enter Your City</label>
           <input type="text" class="form-control" id="citySearch" placeholder="Enter City">
         </div>
-        <div class="form-group">
-          <label for="radiusSearch">Enter the radius of your search in meters</label>
-          <input type="text" class="form-control" id="radiusSearch" placeholder="Search Radius">
-          <div class="input-group mb-3">
+    
+        <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <label class="input-group-text" for="inputGroupSelect01">Select </label>
+              <label class="input-group-text"       for="inputGroupSelect01">Select Radius</label>
             </div>
-            <select class="custom-select" id="inputGroupSelect01">
-              <option selected>Choose Radius...</option>
-              <option value="1">within 1mile</option>
-              <option value="2">within 5miles</option>
-              <option value="3">within 10miles</option>
-              <option value="4">within 15miles</option>
-              <option value="5">within 20miles</option>
+            <select class="custom-select1" id="inputGroupSelect01">
+              <option selected>Radius....</option>
+              <option value="1">within 1 mile</option>
+              <option value="5">within 5 miles</option>
+              <option value="10">within 10 miles</option>
+              <option value="15">within 15 miles</option>
+              <option value="20">within 20 miles</option>
             </select>
-          </div>
-          </div>
+        </div>
+          
           
           </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" id="firstsubmit">Submit</button>
       </form>
 
      
@@ -41,20 +40,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="./assets/javascript/foodfinder.js"></script>
 </body>
-</html>
-  
-    
-      
+</html>      
            
 
    
     
         
-
-
-           
-
-   
-    
-        
-

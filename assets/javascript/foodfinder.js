@@ -1,33 +1,115 @@
 
 var cityInput = "west los angeles"
-var keywordInput = ""
+
 var radiusInput = 5000
 
-var locationQueryURL = "https://developers.zomato.com/api/v2.1/locations?query=" + cityInput
+var locationQueryURL;
 
-var latitude;
-var longitude;
+var cityLatitude;
+var cityLongitude;
 
-/*$.ajax({
-  method: "GET",
-  url: locationQueryURL,
-  headers: { "user-key": "69efdd6d88045ed798460c615c4d6ad9" }
-}).then(function(response){
-  latitude = response.location_suggestions[0].latitude;
-  longitude = response.location_suggestions[0].longitude;
-  console.log(latitude, longitude)
+var restaurantLatitude;
+var restaurantLongitude;
+
+// create a queryurl for zomato CUISINES using latitude and longitude
+
+var cuisineQueryURL;
+var cuisineIds;
+var selectedCuisine;
+
+// create a queryurl for zomato SEARCH using latitude, longitude, cuisine and radius
+
+var restaurantQueryURL;
+
+var restaurantList = [];
+
+// ajax call to zomato LOCATIONS to get cityLatitude and cityLongitude of a given city
+
+
+$("#firstsubmit").on("click", function(event){
+
+  event.preventDefault()
+  cityInput = $("#citySearch").val()
+  radiusInput = parseInt($("#inputGroupSelect01").val()) * 1610
+  localStorage.setItem("cityname", cityInput)
+  localStorage.setItem("radius", radiusInput)
+  window.location.href = "cuisinesearch.html"
 })
 
-var restaurantQueryURL = "https://developers.zomato.com/api/v2.1/search?q=" + keywordInput + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radiusInput
+$("cuisinesearch.html").ready(function(){
+locationQueryURL = "https://developers.zomato.com/api/v2.1/locations?query=" + localStorage.getItem("cityname")
 
-/*$.ajax({
-  method: "GET",
-  url: restaurantQueryURL,
-  headers: { "user-key": "69efdd6d88045ed798460c615c4d6ad9" }
-}).//then(function(response){
-  //console.log(response)
-//})
-*/
+  $.ajax({
+    method: "GET",
+    url: locationQueryURL,
+    headers: { "user-key": "69efdd6d88045ed798460c615c4d6ad9" }
+  }).then(function(response){
+    cityLatitude = response.location_suggestions[0].latitude;
+    cityLongitude = response.location_suggestions[0].longitude;
+
+    cuisineQueryURL = "https://developers.zomato.com/api/v2.1/cuisines?" + "lat=" + cityLatitude + "&lon=" + cityLongitude
+
+    $.ajax({
+      method: "GET",
+      url: cuisineQueryURL,
+      headers: { "user-key": "69efdd6d88045ed798460c615c4d6ad9" }
+    }).then(function(response){
+      console.log(cuisineQueryURL)
+      cuisineIds = response.cuisines
+    
+      for (var i = 0; i < cuisineIds.length; i++){
+        var dropdownitem = $("<option>").attr("value", i).text(cuisineIds[i].cuisine.cuisine_name)
+        $(".custom-select2").append(dropdownitem)
+      }
+    })
+  })
+})
+
+
+
+// click listener on cuisine select page; selectedCuisine provides cuisine id
+
+$(document.body).on("click", "#secondsubmit", function(){
+  
+  console.log($("#inputGroupSelect04")[0].value)
+  selectedCuisine = cuisineIds[$("#inputGroupSelect04")[0].value].cuisine.cuisine_id
+  restaurantQueryURL = "https://developers.zomato.com/api/v2.1/search?" + "&lat=" + cityLatitude + "&lon=" + cityLongitude + "&radius=" + radiusInput + "&cuisines=" + selectedCuisine;
+  console.log(selectedCuisine)
+  console.log(restaurantQueryURL)
+
+  $.ajax({
+    method: "GET",
+    url: restaurantQueryURL,
+    headers: { "user-key": "69efdd6d88045ed798460c615c4d6ad9" }
+  }).then(function(response){
+    restaurantList = response.restaurants;
+    console.log(restaurantList)
+
+
+    $("body").empty()
+   
+//changed address and rating tag to p tag
+//added class=rest-results to parent Div
+    for (var i = 0; i < 20; i++){
+      var parentDiv = $("<div class='rest-results'>")
+      var linkName = $("<a>").attr({href: "#", id: i}).text(restaurantList[i].restaurant.name).addClass("restaurantlink")
+      var address = $("<p>").text(restaurantList[i].restaurant.location.address)
+      var rating = $("<p>").text(restaurantList[i].restaurant.user_rating.aggregate_rating)
+      parentDiv.append(linkName, address, rating)
+      $("body").append(parentDiv)
+  
+    }
+  })
+
+ 
+})
+
+$(document.body).on("click", ".restaurantlink", function(){
+  console.log($(this).text())
+  localStorage.setItem("restaurantname", $(this).text())
+  localStorage.setItem("restaurantlatitude", restaurantList[$(this).attr("id")].restaurant.location.latitude)
+  localStorage.setItem("restaurantlongitude", restaurantList[$(this).attr("id")].restaurant.location.longitude)
+})
 
 
 
@@ -36,6 +118,8 @@ var restaurantQueryURL = "https://developers.zomato.com/api/v2.1/search?q=" + ke
 
 
 
+
+//eatstreet starts here
 
 var namesearchES= localStorage.getItem ("restaurantname")
 
@@ -77,25 +161,3 @@ $.ajax({
 
 
 
-// url with lat/long search name and address:  https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=89c8d7ed28eb8302&latitude=34.059003&longitude=-118.418866&method=both&search=california+pizza+kitchen&street-address=10250+Santa+Monica+Blvd+%232800,+Los+Angeles,+CA+90067
-
-// url with just address , it that gives all restaurants:    https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=2a98759c3f05101c&method=both&street-address=659+S+Broadway+Los+Angeles,+CA&search=901+Bar+and+grill"
-      
-
-
-  // url with out address:  https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=89c8d7ed28eb8302&latitude=34.059003&longitude=-118.418866&method=both&search=california+pizza+kitchen
-
-
-
-
-// error url concole said either long/lat or address much be inputted: https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=89c8d7ed28eb8302&latitude=" + latitudeES + "&longitude=" + longitudeES + "&method=both&search=" + namesearchES
-
-
-
-//url with address and search name  "https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=89c8d7ed28eb8302&method=both&search=california+pizza+kitchen&street-address=10250+Santa+Monica+Blvd+%232800,+Los+Angeles,+CA+90067"
-
-
-
-
-
-      
