@@ -3,7 +3,7 @@ var cityInput = "west los angeles"
 
 var radiusInput = 5000
 
-var locationQueryURL = "https://developers.zomato.com/api/v2.1/locations?query=" +          cityInput
+var locationQueryURL;
 
 var cityLatitude;
 var cityLongitude;
@@ -11,47 +11,65 @@ var cityLongitude;
 var restaurantLatitude;
 var restaurantLongitude;
 
-// ajax call to zomato LOCATIONS to get cityLatitude and cityLongitude of a given city
-
-$.ajax({
-  method: "GET",
-  url: locationQueryURL,
-  headers: { "user-key": "69efdd6d88045ed798460c615c4d6ad9" }
-}).then(function(response){
-  cityLatitude = response.location_suggestions[0].latitude;
-  cityLongitude = response.location_suggestions[0].longitude;
-  // console.log(latitude, longitude)
-})
-
 // create a queryurl for zomato CUISINES using latitude and longitude
 
-var cuisineQueryURL = "https://developers.zomato.com/api/v2.1/cuisines?" + "lat=" + cityLatitude + "&lon=" + cityLongitude
+var cuisineQueryURL;
 var cuisineIds;
 var selectedCuisine;
 
-$.ajax({
-  method: "GET",
-  url: cuisineQueryURL,
-  headers: { "user-key": "69efdd6d88045ed798460c615c4d6ad9" }
-}).then(function(response){
-
-  cuisineIds = response.cuisines
-
-  for (var i = 0; i < cuisineIds.length; i++){
-    var dropdownitem = $("<option>").attr("value", i).text(cuisineIds[i].cuisine.cuisine_name)
-    $(".custom-select").append(dropdownitem)
-  }
-  
-  
-})
-
 // create a queryurl for zomato SEARCH using latitude, longitude, cuisine and radius
 
-var restaurantQueryURL = "https://developers.zomato.com/api/v2.1/search?" + "&lat=" + cityLatitude + "&lon=" + cityLongitude + "&radius=" + radiusInput + "&cuisine=" + selectedCuisine
+var restaurantQueryURL;
+
+var restaurantList = [];
+
+// ajax call to zomato LOCATIONS to get cityLatitude and cityLongitude of a given city
+
+
+$("#firstsubmit").on("click", function(event){
+
+  event.preventDefault()
+  cityInput = $("#citySearch").val()
+  radiusInput = parseInt($("#inputGroupSelect01").val()) * 1610
+  localStorage.setItem("cityname", cityInput)
+  localStorage.setItem("radius", radiusInput)
+  window.location.href = "cuisinesearch.html"
+})
+
+$("cuisinesearch.html").ready(function(){
+locationQueryURL = "https://developers.zomato.com/api/v2.1/locations?query=" + localStorage.getItem("cityname")
+
+  $.ajax({
+    method: "GET",
+    url: locationQueryURL,
+    headers: { "user-key": "69efdd6d88045ed798460c615c4d6ad9" }
+  }).then(function(response){
+    cityLatitude = response.location_suggestions[0].latitude;
+    cityLongitude = response.location_suggestions[0].longitude;
+
+    cuisineQueryURL = "https://developers.zomato.com/api/v2.1/cuisines?" + "lat=" + cityLatitude + "&lon=" + cityLongitude
+
+    $.ajax({
+      method: "GET",
+      url: cuisineQueryURL,
+      headers: { "user-key": "69efdd6d88045ed798460c615c4d6ad9" }
+    }).then(function(response){
+      console.log(cuisineQueryURL)
+      cuisineIds = response.cuisines
+    
+      for (var i = 0; i < cuisineIds.length; i++){
+        var dropdownitem = $("<option>").attr("value", i).text(cuisineIds[i].cuisine.cuisine_name)
+        $(".custom-select2").append(dropdownitem)
+      }
+    })
+  })
+})
+
+
 
 // click listener on cuisine select page; selectedCuisine provides cuisine id
 
-$(document.body).on("click", ".btn-outline-secondary", function(){
+$(document.body).on("click", "#secondsubmit", function(){
   
   console.log($("#inputGroupSelect04")[0].value)
   selectedCuisine = cuisineIds[$("#inputGroupSelect04")[0].value].cuisine.cuisine_id
@@ -64,8 +82,31 @@ $(document.body).on("click", ".btn-outline-secondary", function(){
     url: restaurantQueryURL,
     headers: { "user-key": "69efdd6d88045ed798460c615c4d6ad9" }
   }).then(function(response){
-    console.log(response)
+    restaurantList = response.restaurants;
+    console.log(restaurantList)
+
+    $("body").empty()
+
+    for (var i = 0; i < 20; i++){
+      var parentDiv = $("<div>")
+      var linkName = $("<a>").attr({href: "#", id: i}).text(restaurantList[i].restaurant.name).addClass("restaurantlink")
+      var address = $("<div>").text(restaurantList[i].restaurant.location.address)
+      var rating = $("<div>").text(restaurantList[i].restaurant.user_rating.aggregate_rating)
+      parentDiv.append(linkName, address, rating)
+      $("body").append(parentDiv)
+  
+    }
   })
+
+ 
+})
+
+$(document.body).on("click", ".restaurantlink", function(){
+  console.log($(this).text())
+  localStorage.setItem("restaurantname", $(this).text())
+  localStorage.setItem("restaurantlatitude", restaurantList[$(this).attr("id")].restaurant.location.latitude)
+  localStorage.setItem("restaurantlongitude", restaurantList[$(this).attr("id")].restaurant.location.longitude)
+  
 })
 
 
