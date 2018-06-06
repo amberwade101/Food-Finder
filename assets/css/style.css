@@ -3,7 +3,7 @@
 }
 
 
-body{
+body div {
     
  
   background-size: 100%;
@@ -13,6 +13,22 @@ background-image: url('../images/noteapic.png');
   
   
    
+}
+body{
+    background-size: 100%;
+background-image: url('../images/noteapic.png');
+    
+    background-repeat: cover;
+  
+}
+
+container{
+    background-size: 100%;
+    background-image: url('../images/noteapic.png');
+        
+        background-repeat: cover;
+      
+
 }
 
 
