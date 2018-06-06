@@ -127,7 +127,7 @@ function initMap() {
   var location ={lat: restlat, lng: restlon};
   var map = new google.maps.Map(document.getElementById("map"),
 {
-    zoom: 4,
+    zoom: 11,
     center: location
 });
 
