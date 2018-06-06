@@ -122,14 +122,16 @@ window.location.href = "mapindex.html"
 })
 
 function initMap() {
-  var location ={lat: -25.363, lng: 131.044};
+  var restlat = parseFloat(localStorage.getItem("restaurantlatitude"))
+  var restlon = parseFloat(localStorage.getItem("restaurantlongitude"))
+  var location ={lat: restlat, lng: restlon};
   var map = new google.maps.Map(document.getElementById("map"),
 {
     zoom: 4,
     center: location
 });
 
-var marker=new google.maps.MArker({
+var marker=new google.maps.Marker({
     position:location,
     map: map
 
@@ -139,35 +141,9 @@ var marker=new google.maps.MArker({
 
 
 
-
-/*var restaurantURLES="https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=89c8d7ed28eb8302&latitude=" + latitudeES + "&longitude=" + longitudeES + "&method=both&search=" + namesearchES
-
-
-$.ajax({
-  method: "get",
-  url: restaurantURLES,
-}).then(function(results){
-  console.log(results.restaurants)
-  //console.log(results.restaurants[0].apiKey)
-  $.ajax({
-    method: "get",
-    url:  'https://api.eatstreet.com/publicapi/v1/restaurant/' + results.restaurants[0].apiKey
-     + '/menu?access-token=89c8d7ed28eb8302&includeCustomizations=false'
-  }).then(function(results2){
-    console.log(results2)
-   for (var i = 0; i < results2.length; i++){
-      for (var x = 0; x < results2[i].items.length; x++){
-        // console.log(results2[i].items[x].description)
-        
-        
-      
-   
-      }}
-  })
+$("#startover").on("click", function(){
+  window.location.href = "index.html"
 })
-*/
-//googlemaps starts here
-
 
 
 
