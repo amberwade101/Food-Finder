@@ -109,26 +109,38 @@ $(document.body).on("click", ".restaurantlink", function(){
   localStorage.setItem("restaurantname", $(this).text())
   localStorage.setItem("restaurantlatitude", restaurantList[$(this).attr("id")].restaurant.location.latitude)
   localStorage.setItem("restaurantlongitude", restaurantList[$(this).attr("id")].restaurant.location.longitude)
-})
 
 
 
 
-
-
-
-
-
-//eatstreet starts here
-
-var namesearchES= localStorage.getItem ("restaurantname")
 
 var latitudeES= localStorage.getItem("restaurantlatitude")
 var longitudeES=localStorage.getItem("restaurantlongitude")
 
+window.location.href = "mapindex.html"
+
+})
+
+function initMap() {
+  var location ={lat: -25.363, lng: 131.044};
+  var map = new google.maps.Map(document.getElementById("map"),
+{
+    zoom: 4,
+    center: location
+});
+
+var marker=new google.maps.MArker({
+    position:location,
+    map: map
+
+});
+}
 
 
-var restaurantURLES="https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=89c8d7ed28eb8302&latitude=" + latitudeES + "&longitude=" + longitudeES + "&method=both&search=" + namesearchES
+
+
+
+/*var restaurantURLES="https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=89c8d7ed28eb8302&latitude=" + latitudeES + "&longitude=" + longitudeES + "&method=both&search=" + namesearchES
 
 
 $.ajax({
@@ -153,7 +165,8 @@ $.ajax({
       }}
   })
 })
-
+*/
+//googlemaps starts here
 
 
 
